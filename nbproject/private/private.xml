@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/Main.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/AddPatient.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/SearchPatient.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/SearchDoctor.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/ViewDoctor.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/ViewPatient.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/DeletePatient.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/GetAppointment.java</file>
+            <file>file:/D:/JavaProject/HospitaManagementSystem/src/hospitamanagementsystem/CheckAppointment.java</file>
+        </group>
+    </open-files>
+</project-private>
