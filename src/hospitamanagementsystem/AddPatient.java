@@ -208,6 +208,7 @@ public class AddPatient extends javax.swing.JFrame {
             
             //close
             con.close();
+            JOptionPane.showMessageDialog(this,"Data Inserted....");
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,e);
         }

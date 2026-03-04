@@ -4,6 +4,14 @@
  */
 package hospitamanagementsystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+
 /**
  *
  * @author Acer
@@ -33,7 +41,7 @@ public class ViewPatient extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,11 +53,12 @@ public class ViewPatient extends javax.swing.JFrame {
         jLabel1.setText("View Patient");
 
         jButton1.setText("View");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setText("Back");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -65,7 +74,7 @@ public class ViewPatient extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,6 +136,33 @@ public class ViewPatient extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         try{
+             DefaultTableModel model =(DefaultTableModel)table.getModel();
+            //Load Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //create connection
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3307/Hospital","root","Pooja@123");
+            PreparedStatement pstmt = con.prepareStatement("SELECT *FROM Patient");
+            ResultSet rs=pstmt.executeQuery();
+            while(rs.next()){
+            int id=rs.getInt("ID");
+            String pid=Integer.toString(id);
+            String pname=rs.getString("Name");
+            int age=rs.getInt("Age");
+            String page=Integer.toString(age);
+            String dname=rs.getString("DoctorName");
+            String row[]={pid,pname,page,dname};
+            model.addRow(row);
+            }
+            con.close();
+            
+         }catch(Exception e){
+               JOptionPane.showMessageDialog(this,e);
+         }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -158,6 +194,6 @@ public class ViewPatient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

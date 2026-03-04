@@ -4,6 +4,13 @@
  */
 package hospitamanagementsystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Acer
@@ -31,10 +38,10 @@ public class DeletePatient extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        pid = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -55,8 +62,9 @@ public class DeletePatient extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Search");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -72,12 +80,13 @@ public class DeletePatient extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         jButton2.setBackground(new java.awt.Color(204, 204, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Delete");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton3.setBackground(new java.awt.Color(204, 204, 255));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -107,7 +116,7 @@ public class DeletePatient extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2))
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(pid, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(124, 124, 124)
                         .addComponent(jButton3)))
@@ -121,7 +130,7 @@ public class DeletePatient extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pid, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -159,6 +168,54 @@ public class DeletePatient extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String patientId =pid.getText();
+       
+         try{
+             DefaultTableModel model =(DefaultTableModel)table.getModel();
+            //Load Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //create connection
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3307/Hospital","root","Pooja@123");
+            String query="SELECT *FROM Patient WHERE ID=?";
+             PreparedStatement pstmt = con.prepareStatement(query);
+             pstmt.setString(1,patientId);
+             ResultSet rs = pstmt.executeQuery();
+             while(rs.next()){
+                 int patientid=rs.getInt("ID");
+                 String pid=Integer.toString(patientid);
+                 String pname=rs.getString("Name");
+                 int patientage=rs.getInt("Age");
+                 String page=Integer.toString(patientage);
+                 String dname=rs.getString("DoctorName");
+                 String row[]={pid,pname,page,dname};
+                 model.addRow(row);
+             }
+             con.close();
+         }catch(Exception e){
+               JOptionPane.showMessageDialog(this,e);
+         }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String patientid=pid.getText();
+       try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //create connection
+             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3307/Hospital","root","Pooja@123");
+             String query="DELETE FROM Patient where ID=?";
+             PreparedStatement pstmt = con.prepareStatement(query);
+             pstmt.setString(1,patientid);
+             pstmt.executeUpdate();
+             JOptionPane.showMessageDialog(this,"Deleted Data Successfully");
+                
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(this, e);
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -192,7 +249,7 @@ public class DeletePatient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField pid;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
